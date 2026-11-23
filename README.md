@@ -1,10 +1,10 @@
 # Elasticsearch Lab
 
-A small local lab to follow the LinkedIn Learning Elasticsearch course on Apple Silicon Macs.
+I use this lab to follow the LinkedIn Learning Elasticsearch course on an Apple Silicon Mac.
 
-It creates a tiny Ubuntu VM, installs Elasticsearch and Kibana, and gives you a local sandbox to run the course examples.
+It uses Vagrant and Parallels to create an Ubuntu ARM64 VM for the course examples. The repository also includes an Elasticsearch installation script.
 
-What you need
+## Requirements
 
 - macOS with Apple Silicon (M1, M2, M3)
 - Parallels Desktop running
@@ -12,7 +12,7 @@ What you need
 - Vagrant (>= 2.2)
 - Vagrant Parallels provider
 
-Quick start
+## Run the lab
 
 1. From this project folder, run:
 
@@ -35,15 +35,15 @@ vagrant ssh
 4. Inside the VM, install Elasticsearch:
 
 ```bash
-bash /tmp/install_elasticsearch_arm64.sh
+bash /vagrant/install_elasticsearch_arm64.sh
 ```
 
-Local URLs
+## Forwarded ports
 
 - Elasticsearch: http://localhost:9200
-- Kibana:      http://localhost:5601
+- Kibana: http://localhost:5601 (once installed in the VM)
 
-Common commands
+## VM commands
 
 ```bash
 vagrant up --provider=parallels   # start
@@ -54,18 +54,18 @@ vagrant halt                      # stop
 vagrant destroy                   # remove VM (data lost)
 ```
 
-Quick checks
+## Check Elasticsearch
 
 ```bash
 curl http://localhost:9200
 curl http://localhost:9200/_cluster/health
 ```
 
-Troubleshooting
+## Troubleshooting
 
 - Parallels not open: open Parallels and run setup again.
 - Ports in use: change forwarded ports in the Vagrantfile.
-- VM won't start: check disk space, update Parallels, try `vagrant destroy && vagrant up`.
+- VM won’t start: check disk space and the Parallels/Vagrant provider versions before rebuilding it. Destroying the VM removes its data.
 - Elasticsearch won't start: SSH into the VM and run:
 
 ```bash
@@ -73,15 +73,11 @@ sudo systemctl status elasticsearch
 sudo journalctl -u elasticsearch -n 50
 ```
 
-Project files
+## Files
 
 - README.md
 - setup.sh
 - Vagrantfile
 - install_elasticsearch_arm64.sh
 
-Author
-
-luisantoniio1998
-
-Last updated: December 2025
+The Vagrantfile also expects the course archive, `sandbox.zip`, in the project folder.
